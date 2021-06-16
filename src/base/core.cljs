@@ -1,10 +1,12 @@
 (ns base.core
-  (:require [rum.core :as rum]))
+  (:require [rum.core :as rum]
+            [components.rules.renders :as r]
+            [components.rules.interface :as tr]))
 
 
 
 (rum/defc app []
-  [:h1 "Hello TODO"])
+  (r/app-root tr/*todo-session))
 
 
 (defn ^:export main
