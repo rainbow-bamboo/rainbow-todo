@@ -6,7 +6,7 @@
 
 (def initial-session
   (-> (reduce o/add-rule (o/->session) (concat  t/todo-rules e/event-rules r/render-rules))
-      (o/insert ::t/global {::t/active-content ""
+      (o/insert ::t/global {::t/new-todo ""
                             ::t/active-id nil})
       (o/insert ::t/derived {::t/todos []})
       (o/insert ::e/global {::e/next-id 1})

@@ -7,7 +7,7 @@
     [:what
      [id :todo/content content]
      [id :todo/checked? checked?]
-     [id :todo/state state]
+     [id :todo/editing? editing?]
      :then-finally
      (->> (o/query-all o/*session* ::todos)
           (o/insert! ::derived ::todos))

@@ -19,7 +19,7 @@
      [:div#app-root
       [:header
        [:h1 "This is my header"]
-       (todo-input *session)
+       (todo-form *session)
        (active-todos *session)]])]
     
     active-todos
@@ -31,21 +31,23 @@
         (map (fn [t]
                [:li (:content t)]) todos)])]
     
-    todo-input
+    todo-form
     [:what
-     [::t/global ::t/active-content content]
+     [::t/global ::t/new-todo todo]
      :then
      (let [*session (orum/prop)]
-       [:input {:type "text"
-                :class "edit"
-                :placeholder "What needs to be done?"
-                :autoFocus true
-                :value content
-                :on-blur #(insert! *session ::e/insertion {::e/todo content})
-                :on-change (fn [e]
-                             (insert! *session ::t/global {::t/active-content (-> e .-target .-value)}))
-                :on-key-down (fn [e]
-                               (case (.-keyCode e)
-                                 13
-                                 (insert! *session ::e/insertion {::e/todo content})
-                                 nil))}])]}))
+       [:div.shelf.new-todo-form
+        [:input {:type "text"
+                 :class "edit"
+                 :placeholder "What needs to be done?"
+                 :autoFocus true
+                 :value todo
+                 :on-change (fn [e]
+                              (insert! *session ::t/global {::t/new-todo (-> e .-target .-value)}))
+                 :on-key-down (fn [e]
+                                (case (.-keyCode e)
+                                  13
+                                  (insert! *session ::e/insertion {::e/todo todo})
+                                  nil))}]
+        [:button {:on-click #(insert! *session ::e/insertion {::e/todo todo})}
+         "New Todo"]])]}))

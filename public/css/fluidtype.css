@@ -74,8 +74,8 @@ table {
   --light-blue: #B3D7FF; /* The color is the native browser highlight text color, to make the appeal of importance and focus on specific areas of the text.*/  
   --dark-gray: #282c35;
   --light-gray: #f7f7f7;
-  --font-family: "Vollkorn", sans-serif;
-  --body-font-family: "Vollkorn", serif;
+  --font-family: "Bungee Inline", sans-serif;
+  --body-font-family: "Noto Serif", serif;
 }
 
 
