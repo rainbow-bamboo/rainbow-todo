@@ -22,9 +22,30 @@ clj꞉shadow.user꞉> 
 ; TIPS: You can choose which REPL to use (clj or cljs):
 ;    *Calva: Toggle REPL connection*
 ;    (There is a button in the status bar for this)
+nil
+cljs꞉base.core꞉> 
+#'base.core/app
+cljs꞉base.core꞉> 
+:repl/exception!
+; 
+; Execution error (ExceptionInfo) at (<cljs repl>:1).
+:base.core/buttons not in session
+cljs꞉base.core꞉> 
+nil
+cljs꞉base.core꞉> 
+:repl/exception!
+; 
+; Execution error (ExceptionInfo) at (<cljs repl>:1).
+:components.rules.todos/buttons not in session
+cljs꞉base.core꞉> 
 :repl/exception!
 ; 
 ; Execution error (ExceptionInfo) at (<cljs repl>:1).
 :components.rules.todos/todos not in session
-cljs꞉components.rules.core꞉> 
+cljs꞉base.core꞉> 
+:repl/exception!
+; 
+; Execution error (ExceptionInfo) at (<cljs repl>:1).
+:components.rules.todos/buttons not in session
+cljs꞉base.core꞉> 
 ; nREPL Connection was closed

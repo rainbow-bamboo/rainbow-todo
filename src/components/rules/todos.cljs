@@ -8,8 +8,13 @@
      [id :todo/content content]
      [id :todo/checked? checked?]
      [id :todo/editing? editing?]
+     [id :todo/buttons buttons]
      :then-finally
      (->> (o/query-all o/*session* ::todos)
           (o/insert! ::derived ::todos))
      ]}))
+
+
+
+
 

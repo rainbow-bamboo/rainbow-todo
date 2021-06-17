@@ -29,7 +29,11 @@
      (let [*session (orum/prop)]
        [:ol
         (map (fn [t]
-               [:li (:content t)]) todos)])]
+               [:li (map (fn [b] 
+                           [:span.button
+                            (:button/content b)]) 
+                         (:buttons t))]) 
+             todos)])]
     
     todo-form
     [:what

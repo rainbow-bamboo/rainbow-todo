@@ -2,6 +2,12 @@
   (:require [odoyle.rules :as o]
             [components.rules.todos :as t]))
 
+(defn create-buttons [text]
+  (map (fn [l] {:button/content l
+                :button/selected? false})
+       (seq text)))
+
+
 (def event-rules
   (o/ruleset
    {::new-todo
@@ -11,6 +17,8 @@
      :then
      (o/insert! next-id {:todo/content todo
                          :todo/checked? false
-                         :todo/editing? false}) ;; Here we create the new todo with id
+                         :todo/editing? false
+                         :todo/buttons (create-buttons todo)}) ;; Here we create the new todo with id
      (o/insert! ::t/global ::t/new-todo "") ;; This resets the input to be blank
-     (o/insert! ::global ::next-id (+ 1 next-id))]})) ;; this increments the id
+     (o/insert! ::global ::next-id (inc next-id))]})) 
+
