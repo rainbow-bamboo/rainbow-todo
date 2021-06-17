@@ -13,9 +13,10 @@
      (let [id (if (nil? active-id)
                 next-id 
                 active-id)]
-       (println "inserting todo with: " id todo)
+       (println "todo is " todo " id is " id)
        (o/insert! id {:todo/content todo
-                      :todo/checked? false})
+                      :todo/checked? false
+                      :todo/state "text"})
        (if (nil? active-id)
          (o/insert! ::global ::next-id (+ 1 next-id))
          (o/insert! ::t/active-id nil)))]}))

@@ -19,22 +19,29 @@
      [:div#app-root
       [:header
        [:h1 "This is my header"]
-       (todo-input *session)]])]
+       (todo-input *session)
+       (active-todos *session)]])]
+    
+    active-todos
+    [:what
+     [::t/derived ::t/todos todos]
+     :then
+     (let [*session (orum/prop)]
+       [:ol
+        (map (fn [t]
+               [:li (:content t)]) todos)])]
     
     todo-input
     [:what
      [::t/global ::t/active-content content]
-     [::t/global ::t/active-id id]
      :then
-     (let [*session (orum/prop)
-           on-finish #(insert! *session ::e/insertion {:id id
-                                                       ::e/todo content})]
+     (let [*session (orum/prop)]
        [:input {:type "text"
                 :class "edit"
                 :placeholder "What needs to be done?"
                 :autoFocus true
                 :value content
-                :on-blur #(on-finish)
+                :on-blur #(insert! *session ::e/insertion {::e/todo content})
                 :on-change (fn [e]
                              (insert! *session ::t/global {::t/active-content (-> e .-target .-value)}))
                 :on-key-down (fn [e]
