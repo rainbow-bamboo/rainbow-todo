@@ -2,7 +2,8 @@
   (:require [odoyle.rules :as o]
             [odoyle.rum :as orum]
             [components.rules.todos :as t]
-            [components.rules.events :as e]))
+            [components.rules.events :as e]
+            [components.rules.closet :as c]))
 
 (defn insert! [*session id attr->value]
   (swap! *session
@@ -30,7 +31,11 @@
        [:ol
         (map (fn [t]
                [:li (map (fn [b] 
-                           [:span.button
+                           [:span.button                           
+                            {:class (if (:button/selected? b) "selected" nil)
+                             :on-click #(insert! *session ::e/insertion {::e/passcode {:todo-id (:id t)
+                                                                                       :button-id (:button/id b)
+                                                                                       :buttons (:buttons t)}})}
                             (:button/content b)]) 
                          (:buttons t))]) 
              todos)])]

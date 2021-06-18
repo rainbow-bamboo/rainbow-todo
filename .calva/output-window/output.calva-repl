@@ -22,30 +22,36 @@ clj꞉shadow.user꞉> 
 ; TIPS: You can choose which REPL to use (clj or cljs):
 ;    *Calva: Toggle REPL connection*
 ;    (There is a button in the status bar for this)
+:repl/exception!
+; 
+; Execution error (Error) at (<cljs repl>:1).
+Invalid arity: 6
+cljs꞉components.rules.events꞉> 
 nil
-cljs꞉base.core꞉> 
-#'base.core/app
-cljs꞉base.core꞉> 
-:repl/exception!
-; 
-; Execution error (ExceptionInfo) at (<cljs repl>:1).
-:base.core/buttons not in session
-cljs꞉base.core꞉> 
+cljs꞉components.rules.events꞉> 
+#'components.rules.events/sample-buttons
+cljs꞉components.rules.events꞉> 
 nil
-cljs꞉base.core꞉> 
+cljs꞉components.rules.events꞉> 
+#'components.rules.events/sample-buttons
+cljs꞉components.rules.events꞉> 
+nil
+cljs꞉components.rules.events꞉> 
+#'components.rules.events/sample-buttons
+cljs꞉components.rules.events꞉> 
+#:button{:content "c", :selected? false, :id 0}
+cljs꞉components.rules.events꞉> 
+false
+cljs꞉components.rules.events꞉> 
+0
+cljs꞉components.rules.events꞉> 
 :repl/exception!
 ; 
-; Execution error (ExceptionInfo) at (<cljs repl>:1).
-:components.rules.todos/buttons not in session
-cljs꞉base.core꞉> 
-:repl/exception!
-; 
-; Execution error (ExceptionInfo) at (<cljs repl>:1).
-:components.rules.todos/todos not in session
-cljs꞉base.core꞉> 
-:repl/exception!
-; 
-; Execution error (ExceptionInfo) at (<cljs repl>:1).
-:components.rules.todos/buttons not in session
-cljs꞉base.core꞉> 
+; Execution error (Error) at (<cljs repl>:1).
+No protocol method IAssociative.-assoc defined for type cljs.core/List: ({:button/content "c", :button/selected? false, :button/id 0} {:button/content "o", :button/selected? false, :button/id 1})
+cljs꞉components.rules.events꞉> 
+#'components.rules.events/toggle-select-button
+cljs꞉components.rules.events꞉> 
+[#:button{:content "c", :selected? true, :id 0} #:button{:content "o", :selected? false, :id 1}]
+cljs꞉components.rules.events꞉> 
 ; nREPL Connection was closed
