@@ -1,6 +1,8 @@
 (ns components.rules.events
   (:require [odoyle.rules :as o]
-            [components.rules.todos :as t]))
+            [components.rules.todos :as t]
+            [components.rules.closet :as c]
+            [clojure.string :as s]))
 
 (defn add-unique-id [coll]
   (map #(assoc  %1 :button/id %2)  coll (range (count coll))))
@@ -12,9 +14,8 @@
        (seq text))))
 
 
-(defn toggle-select-button [id buttons]
-  (update-in (vec buttons) [id :button/selected?] not))
-
+(defn select-button [id buttons]
+  (update-in (vec buttons) [id] assoc :button/selected? true))
 
 
 (def event-rules
@@ -34,7 +35,11 @@
     ::insert-passcode
     [:what
      [::insertion ::passcode selection]
+     [::c/global ::c/inserted-passcode passcode {:then false}]
      :then
-     (let [{:keys [todo-id button-id buttons]} selection]
-       (o/insert! todo-id {:todo/buttons (toggle-select-button button-id buttons)}))]})) 
+     (let [{:keys [todo-id button-id button-content buttons]} selection]
+       (o/insert! todo-id {:todo/buttons (select-button button-id buttons)})
+       (o/insert! ::c/global ::c/inserted-passcode (conj passcode (s/upper-case button-content))))]})) 
+
+
 

@@ -22,36 +22,27 @@ clj꞉shadow.user꞉> 
 ; TIPS: You can choose which REPL to use (clj or cljs):
 ;    *Calva: Toggle REPL connection*
 ;    (There is a button in the status bar for this)
-:repl/exception!
-; 
-; Execution error (Error) at (<cljs repl>:1).
-Invalid arity: 6
+#'components.rules.events/create-buttons
 cljs꞉components.rules.events꞉> 
-nil
+(#:button{:content "h", :selected? false, :id 0} #:button{:content "e", :selected? false, :id 1} #:button{:content "l", :selected? false, :id 2} #:button{:content "l", :selected? false, :id 3} #:button{:content "o", :selected? false, :id 4})
 cljs꞉components.rules.events꞉> 
-#'components.rules.events/sample-buttons
+#'components.rules.events/select-button
 cljs꞉components.rules.events꞉> 
-nil
-cljs꞉components.rules.events꞉> 
-#'components.rules.events/sample-buttons
-cljs꞉components.rules.events꞉> 
-nil
-cljs꞉components.rules.events꞉> 
-#'components.rules.events/sample-buttons
-cljs꞉components.rules.events꞉> 
-#:button{:content "c", :selected? false, :id 0}
-cljs꞉components.rules.events꞉> 
-false
-cljs꞉components.rules.events꞉> 
-0
+#'components.rules.events/btns
 cljs꞉components.rules.events꞉> 
 :repl/exception!
 ; 
 ; Execution error (Error) at (<cljs repl>:1).
-No protocol method IAssociative.-assoc defined for type cljs.core/List: ({:button/content "c", :button/selected? false, :button/id 0} {:button/content "o", :button/selected? false, :button/id 1})
+No protocol method IAssociative.-assoc defined for type boolean: false
 cljs꞉components.rules.events꞉> 
-#'components.rules.events/toggle-select-button
+#'components.rules.events/select-button
 cljs꞉components.rules.events꞉> 
-[#:button{:content "c", :selected? true, :id 0} #:button{:content "o", :selected? false, :id 1}]
+[#:button{:content "h", :selected? false, :id 0} #:button{:content "e", :selected? true, :id 1} #:button{:content "l", :selected? false, :id 2} #:button{:content "l", :selected? false, :id 3} #:button{:content "o", :selected? false, :id 4}]
+cljs꞉components.rules.events꞉> 
+#'components.rules.events/select-button
+cljs꞉components.rules.events꞉> 
+[#:button{:content "h", :selected? false, :id 0} #:button{:content "e", :selected? true, :id 1} #:button{:content "l", :selected? false, :id 2} #:button{:content "l", :selected? false, :id 3} #:button{:content "o", :selected? false, :id 4}]
+cljs꞉components.rules.events꞉> 
+[#:button{:content "h", :selected? true, :id 0} #:button{:content "e", :selected? false, :id 1} #:button{:content "l", :selected? false, :id 2} #:button{:content "l", :selected? false, :id 3} #:button{:content "o", :selected? false, :id 4}]
 cljs꞉components.rules.events꞉> 
 ; nREPL Connection was closed

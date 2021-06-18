@@ -11,7 +11,8 @@
                             ::t/active-id nil})
       (o/insert ::t/derived {::t/todos []})
       (o/insert ::e/global {::e/next-id 1})
-      (o/insert ::c/global {::c/inserted-passcode []})
+      (o/insert ::c/global {::c/inserted-passcode []
+                            ::c/correct-passcode ["P" "R" "I" "D" "E"]})
       o/fire-rules))
 
 (def *todo-session (atom initial-session))

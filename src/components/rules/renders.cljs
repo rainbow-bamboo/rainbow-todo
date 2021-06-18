@@ -16,13 +16,14 @@
   (orum/ruleset
    {app-root
     [:then
-    (let [*session (orum/prop)]
-     [:div#app-root
-      [:header
-       [:h1 "This is my header"]
-       (todo-form *session)
-       (active-todos *session)]])]
-    
+     (let [*session (orum/prop)]
+       [:div#app-root
+        [:header
+         [:h1 "This is my header"]
+         (todo-form *session)
+         (active-todos *session)
+         (passcode-display *session)]])]
+
     active-todos
     [:what
      [::t/derived ::t/todos todos]
@@ -30,16 +31,17 @@
      (let [*session (orum/prop)]
        [:ol
         (map (fn [t]
-               [:li (map (fn [b] 
-                           [:span.button                           
+               [:li (map (fn [b]
+                           [:span.button
                             {:class (if (:button/selected? b) "selected" nil)
                              :on-click #(insert! *session ::e/insertion {::e/passcode {:todo-id (:id t)
                                                                                        :button-id (:button/id b)
+                                                                                       :button-content (:button/content b)
                                                                                        :buttons (:buttons t)}})}
-                            (:button/content b)]) 
-                         (:buttons t))]) 
+                            (:button/content b)])
+                         (:buttons t))])
              todos)])]
-    
+
     todo-form
     [:what
      [::t/global ::t/new-todo todo]
@@ -59,4 +61,11 @@
                                   (insert! *session ::e/insertion {::e/todo todo})
                                   nil))}]
         [:button {:on-click #(insert! *session ::e/insertion {::e/todo todo})}
-         "New Todo"]])]}))
+         "New Todo"]])]
+
+    passcode-display
+    [:what
+     [::c/global ::c/inserted-passcode passcode]
+     :then
+     (let [*session (orum/prop)]
+       [:span (reduce str passcode)])]}))
