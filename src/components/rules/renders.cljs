@@ -12,6 +12,10 @@
                (o/insert id attr->value)
                o/fire-rules))))
 
+(defn rainbow-color []
+  (let [colors ["red" "orange" "yellow" "green" "blue" "indigo" "violet"]]
+    (rand-nth colors)))
+
 (def render-rules
   (orum/ruleset
    {app-root
@@ -29,10 +33,10 @@
        [:div#closet-door
         {:class (if isOpen? "open" "closed")}
         [:header
-         [:h1 "Rainbow Todo"]
-         (todo-form *session)
-         (active-todos *session)
-         (passcode-display *session)]])]
+         [:h1 "Rainbow Todo"]]
+        (todo-form *session)
+        (active-todos *session)
+        #_(passcode-display *session)])]
     
     closet
     [:what
@@ -51,9 +55,12 @@
      (let [*session (orum/prop)]
        [:ol
         (map (fn [t]
-               [:li (map (fn [b]
+               [:li 
+                {:id (str "todo-" (:id t))}
+                (map (fn [b]
                            [:span.button
-                            {:class (if (:button/selected? b) "selected" nil)
+                            {:id (str "todo-" (:id t) "-letter-" (:button/id b))
+                             :style (if (:button/selected? b)  {:color (rainbow-color)} nil)
                              :on-click #(insert! *session ::e/insertion {::e/passcode {:todo-id (:id t)
                                                                                        :button-id (:button/id b)
                                                                                        :button-content (:button/content b)
@@ -90,7 +97,4 @@
      :then
      (let [*session (orum/prop)]
        [:div
-        [:span (reduce str passcode)]
-        (if isValid?
-          [:span "Open"]
-          nil)])]}))
+        [:span (reduce str passcode)]])]}))

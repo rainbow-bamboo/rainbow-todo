@@ -2,15 +2,26 @@
     text-decoration: underline;
 }
 
+li{
+    line-height: 3ch;
+}
+
+.button{
+    font-size: 1.5em;
+    font-weight: bold;
+    letter-spacing: .25em;
+    cursor: pointer;
+}
+
 #closet{
     position: absolute;
     top: 0px;
     left: 0px;
     min-height: 100vh;
     min-width: 100vw;
-    background-color: aquamarine;
+    background-color: #C6E8DA;
     z-index: 1;
-    border: 2vw inset #ff9b99;
+    border: 2vw inset #FAC8CB;
 }
 
 #closet-door{
@@ -18,11 +29,12 @@
     top: 0px;
     left: 0px;
     z-index: 2;
-    background-color: antiquewhite;
+    background-color: #FDEFE3;
     min-height: 100vh;
     min-width: 100vw;
     transition: all 1s ease-out;
 }
 .open{
+    /* opacity: 0; */
     transform: translateX(-100vw);
 }
