@@ -18,8 +18,17 @@
     [:then
      (let [*session (orum/prop)]
        [:div#app-root
+        (closet-door *session)])]
+    
+    closet-door
+    [:what
+     [::c/global ::c/valid-passcode? isValid?]
+     :then
+     (let [*session (orum/prop)]
+       [:div#closet-door
+        {:class (if isValid? "open" "closed")}
         [:header
-         [:h1 "This is my header"]
+         [:h1 "Rainbow Todo"]
          (todo-form *session)
          (active-todos *session)
          (passcode-display *session)]])]
@@ -66,6 +75,11 @@
     passcode-display
     [:what
      [::c/global ::c/inserted-passcode passcode]
+     [::c/global ::c/valid-passcode? isValid?]
      :then
      (let [*session (orum/prop)]
-       [:span (reduce str passcode)])]}))
+       [:div
+        [:span (reduce str passcode)]
+        (if isValid?
+          [:span "Open"]
+          nil)])]}))

@@ -1,3 +1,13 @@
 .selected{
     text-decoration: underline;
 }
+
+#closet-door{
+    background-color: antiquewhite;
+    min-height: 100vh;
+    min-width: 100vw;
+    transition: all 1s ease-out;
+}
+.open{
+    transform: translateX(-100vw);
+}
