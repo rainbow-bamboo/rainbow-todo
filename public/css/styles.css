@@ -2,7 +2,22 @@
     text-decoration: underline;
 }
 
+#closet{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: aquamarine;
+    z-index: 1;
+    border: 2vw inset #ff9b99;
+}
+
 #closet-door{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
     background-color: antiquewhite;
     min-height: 100vh;
     min-width: 100vw;

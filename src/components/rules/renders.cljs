@@ -18,20 +18,31 @@
     [:then
      (let [*session (orum/prop)]
        [:div#app-root
-        (closet-door *session)])]
+        (closet-door *session)
+        (closet *session)])]
     
     closet-door
     [:what
-     [::c/global ::c/valid-passcode? isValid?]
+     [::c/global ::c/valid-passcode? isOpen?]
      :then
      (let [*session (orum/prop)]
        [:div#closet-door
-        {:class (if isValid? "open" "closed")}
+        {:class (if isOpen? "open" "closed")}
         [:header
          [:h1 "Rainbow Todo"]
          (todo-form *session)
          (active-todos *session)
          (passcode-display *session)]])]
+    
+    closet
+    [:what
+     [::c/global ::c/valid-passcode? isOpen?]
+     :then
+     (let [*session (orum/prop)]
+       [:div#closet
+        (if isOpen?
+          [:h1 "My Closet"]
+          [:h1 "Nothing to see here"])])]
 
     active-todos
     [:what
