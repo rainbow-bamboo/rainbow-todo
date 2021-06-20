@@ -39,7 +39,18 @@
      :then
      (let [{:keys [todo-id button-id button-content buttons]} selection]
        (o/insert! todo-id {:todo/buttons (select-button button-id buttons)})
-       (o/insert! ::c/global ::c/inserted-passcode (conj passcode (s/upper-case button-content))))]})) 
+       (o/insert! ::c/global ::c/inserted-passcode (conj passcode (s/upper-case button-content))))]
+    
+    ::close-closet
+    [:what
+     [::closet ::close true]
+     [id :todo/content todo {:then false}]
+     [id :todo/buttons buttons {:then false}]
+     :then
+     (o/insert! ::c/global ::c/inserted-passcode [])
+     (o/insert! ::c/global ::c/valid-passcode? false)
+     (o/insert! id :todo/buttons (create-buttons todo))]
+    })) 
 
 
 

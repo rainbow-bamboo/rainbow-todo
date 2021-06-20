@@ -33,7 +33,9 @@
        [:div#closet-door
         {:class (if isOpen? "open" "closed")}
         [:header
-         [:h1 "Rainbow Todo"]]
+         [:h1
+          {:on-click #(insert! *session ::e/closet {::e/close true})}
+          "Rainbow Todo"]]
         (todo-form *session)
         (active-todos *session)
         #_(passcode-display *session)])]
@@ -45,8 +47,10 @@
      (let [*session (orum/prop)]
        [:div#closet
         (if isOpen?
-          [:h1 "My Closet"]
-          [:h1 "Nothing to see here"])])]
+          [:h1
+           {:on-click #(insert! *session ::e/closet {::e/close true})}
+           "My Closet"]
+          [:h1 "My Closet"])])]
 
     active-todos
     [:what

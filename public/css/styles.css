@@ -21,7 +21,7 @@ li{
     min-width: 100vw;
     background-color: #C6E8DA;
     z-index: 1;
-    border: 2vw inset #FAC8CB;
+    border: 1vw inset #8999a8;
 }
 
 #closet-door{
@@ -35,6 +35,7 @@ li{
     transition: all 1s ease-out;
 }
 .open{
-    /* opacity: 0; */
-    transform: translateX(-100vw);
+    opacity: 0;
+    pointer-events: none;
+    /* transform: translateX(-100vw); */
 }
