@@ -63,8 +63,8 @@
                 {:id (str "todo-" (:id t))}
                 [:input {:type "checkbox"
                          :class "todo-checkbox"
-                         :checked (:todo/checked? t)
-                         :on-click #(insert! *session ::e/checkbox {::e/toggle (:id t)})}]
+                         :checked (:checked? t)
+                         :on-change #(insert! *session ::e/checkbox {::e/toggle (:id t)})}]
                 (map (fn [b]
                            [:span.button
                             {:id (str "todo-" (:id t) "-letter-" (:button/id b))
