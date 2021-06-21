@@ -22,7 +22,7 @@
   (o/ruleset
    {::new-todo
     [:what
-     [::insertion ::todo todo]
+     [::todo ::insertion todo]
      [::global ::next-id next-id {:then false}]
      :then
      (o/insert! next-id {:todo/content todo
@@ -34,7 +34,7 @@
     
     ::insert-passcode
     [:what
-     [::insertion ::passcode selection]
+     [::passcode ::insertion selection]
      [::c/global ::c/inserted-passcode passcode {:then false}]
      :then
      (let [{:keys [todo-id button-id button-content buttons]} selection]
@@ -50,6 +50,13 @@
      (o/insert! ::c/global ::c/inserted-passcode [])
      (o/insert! ::c/global ::c/valid-passcode? false)
      (o/insert! id :todo/buttons (create-buttons todo))]
+    
+    ::toggle-checkbox
+    [:what
+     [::checkbox ::toggle todo-id]
+     [todo-id :todo/checked? isChecked? {:then false}]
+     :then
+     (o/insert! todo-id :todo/checked? (not isChecked?))]
     })) 
 
 

@@ -61,11 +61,15 @@
         (map (fn [t]
                [:li 
                 {:id (str "todo-" (:id t))}
+                [:input {:type "checkbox"
+                         :class "todo-checkbox"
+                         :checked (:todo/checked? t)
+                         :on-click #(insert! *session ::e/checkbox {::e/toggle (:id t)})}]
                 (map (fn [b]
                            [:span.button
                             {:id (str "todo-" (:id t) "-letter-" (:button/id b))
                              :style (if (:button/selected? b)  {:color (rainbow-color)} nil)
-                             :on-click #(insert! *session ::e/insertion {::e/passcode {:todo-id (:id t)
+                             :on-click #(insert! *session ::e/passcode {::e/insertion {:todo-id (:id t)
                                                                                        :button-id (:button/id b)
                                                                                        :button-content (:button/content b)
                                                                                        :buttons (:buttons t)}})}
@@ -89,9 +93,9 @@
                  :on-key-down (fn [e]
                                 (case (.-keyCode e)
                                   13
-                                  (insert! *session ::e/insertion {::e/todo todo})
+                                  (insert! *session ::e/todo {::e/insertion todo})
                                   nil))}]
-        [:button {:on-click #(insert! *session ::e/insertion {::e/todo todo})}
+        [:button {:on-click #(insert! *session ::e/todo {::e/insertion todo})}
          "New Todo"]])]
 
     passcode-display
