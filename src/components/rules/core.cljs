@@ -3,7 +3,9 @@
             [components.rules.renders :as r]
             [components.rules.todos :as t]
             [components.rules.events :as e]
-            [components.rules.closet :as c]))
+            [components.rules.closet :as c]
+            [components.data.interface :as d]
+            [clojure.edn :as edn]))
 
 (def initial-session
   (-> (reduce o/add-rule (o/->session) (concat  t/todo-rules e/event-rules r/render-rules c/closet-rules))
@@ -17,3 +19,16 @@
       o/fire-rules))
 
 (def *todo-session (atom initial-session))
+
+(let [facts (edn/read-string (d/get-item :facts))]
+  (println "inside read")
+  (println facts)
+  (if facts
+    (swap! *todo-session
+           (fn [session]
+             (o/fire-rules
+              (reduce o/insert session facts))))
+    nil))
+
+
+

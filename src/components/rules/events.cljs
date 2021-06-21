@@ -2,7 +2,9 @@
   (:require [odoyle.rules :as o]
             [components.rules.todos :as t]
             [components.rules.closet :as c]
-            [clojure.string :as s]))
+            [components.data.interface :as d]
+            [clojure.string :as s]
+            [clojure.edn :as edn]))
 
 (defn add-unique-id [coll]
   (map #(assoc  %1 :button/id %2)  coll (range (count coll))))
@@ -57,7 +59,24 @@
      [todo-id :todo/checked? isChecked? {:then false}]
      :then
      (o/insert! todo-id :todo/checked? (not isChecked?))]
-    })) 
+    
+    ::read-from-storage
+    [:what
+     [::c/global ::c/correct-passcode "PRIDE"]]
+    
+    ::save-to-localstorage
+    [:what
+     [id :todo/checked? checked]
+     :then
+     (println "inside save")
+     (let [facts (->> (o/query-all o/*session*)
+                       (remove (fn [[id]]
+                                 (or (= id ::t/derived)
+                                     (= id ::todo)
+                                     (= id ::passcode)
+                                     (= id ::checkbox)))))]
+       (println facts)
+       (d/set-item! :facts facts))]})) 
 
 
 
