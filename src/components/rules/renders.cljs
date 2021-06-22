@@ -55,26 +55,48 @@
     active-todos
     [:what
      [::t/derived ::t/todos todos]
+     [::t/global ::t/edit-text edit-text]
      :then
      (let [*session (orum/prop)]
        [:ol
         (map (fn [t]
-               [:li 
-                {:id (str "todo-" (:id t))}
-                [:input {:type "checkbox"
-                         :class "todo-checkbox"
-                         :checked (:checked? t)
-                         :on-change #(insert! *session ::e/checkbox {::e/toggle (:id t)})}]
-                (map (fn [b]
-                           [:span.button
-                            {:id (str "todo-" (:id t) "-letter-" (:button/id b))
-                             :style (if (:button/selected? b)  {:color (rainbow-color)} nil)
-                             :on-click #(insert! *session ::e/passcode {::e/insertion {:todo-id (:id t)
-                                                                                       :button-id (:button/id b)
-                                                                                       :button-content (:button/content b)
-                                                                                       :buttons (:buttons t)}})}
-                            (:button/content b)])
-                         (:buttons t))])
+               (if (:editing? t)                 
+                 [:li
+                  {:id (str "todo-" (:id t))}
+                  [:input {:type "text"
+                           :class "edit"
+                           :placehlder (if (not (:content t))
+                                         "What needs to be done"
+                                         nil)
+                           :autoFocus true
+                           :value edit-text
+                           :on-blur #(insert! *session ::e/todo {::e/edit-complete (:id t)})
+                           :on-change (fn [e]
+                                        (insert! *session ::t/global {::t/edit-text (-> e .-target .-value)}))
+                           :on-key-down (fn [e]
+                                          (case (.-keyCode e)
+                                            13
+                                            (insert! *session ::e/todo {::e/edit-complete (:id t)})
+                                            nil))}]]
+                 [:li
+                  {:id (str "todo-" (:id t))}
+                  [:input {:type "checkbox"
+                           :class "todo-checkbox"
+                           :checked (:checked? t)
+                           :on-change #(insert! *session ::e/checkbox {::e/toggle (:id t)})}]
+                  (map (fn [b]
+                         [:span.button
+                          {:id (str "todo-" (:id t) "-letter-" (:button/id b))
+                           :style (if (:button/selected? b)  {:color (rainbow-color)} nil)
+                           :on-click #(insert! *session ::e/passcode {::e/insertion {:todo-id (:id t)
+                                                                                     :button-id (:button/id b)
+                                                                                     :button-content (:button/content b)
+                                                                                     :buttons (:buttons t)}})}
+                          (:button/content b)])
+                       (:buttons t))
+                  [:button
+                   {:on-click #(insert! *session ::e/todo {::e/toggle-edit (:id t)})}
+                    "Edit"]]))
              todos)])]
 
     todo-form

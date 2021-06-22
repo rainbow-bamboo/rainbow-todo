@@ -60,6 +60,25 @@
      :then
      (o/insert! todo-id :todo/checked? (not isChecked?))]
     
+    ::toggle-todo-edit
+    [:what
+     [::todo ::toggle-edit todo-id]
+     [todo-id :todo/editing? isEditing? {:then false}]
+     [todo-id :todo/content content {:then false}]
+     :then
+     (o/insert! todo-id :todo/editing? (not isEditing?))
+     (o/insert! ::t/global ::t/edit-text content)]
+    
+    ::edit-complete
+    [:what
+     [::todo ::edit-complete todo-id]
+     [::t/global ::t/edit-text edit-text {:then false}]
+     :then
+     (o/insert! todo-id :todo/editing? false)
+     (o/insert! todo-id :todo/content edit-text)
+     (o/insert! todo-id :todo/buttons (create-buttons edit-text))
+     (o/insert! ::closet ::close true)]
+    
     ::read-from-storage
     [:what
      [::c/global ::c/correct-passcode "PRIDE"]]
@@ -67,6 +86,7 @@
     ::save-to-localstorage
     [:what
      [id :todo/checked? checked]
+     [id :todo/content content]
      :then
      (println "inside save")
      (let [facts (->> (o/query-all o/*session*)
