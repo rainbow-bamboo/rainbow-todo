@@ -60,23 +60,22 @@
      :then
      (o/insert! todo-id :todo/checked? (not isChecked?))]
     
-    ::toggle-todo-edit
+    ::start-edit
     [:what
-     [::todo ::toggle-edit todo-id]
+     [::todo ::start-edit todo-id]
      [todo-id :todo/editing? isEditing? {:then false}]
      [todo-id :todo/content content {:then false}]
      :then
-     (o/insert! todo-id :todo/editing? (not isEditing?))
+     (o/insert! todo-id :todo/editing? true)
      (o/insert! ::t/global ::t/edit-text content)]
     
     ::edit-complete
     [:what
      [::todo ::edit-complete todo-id]
-     [::t/global ::t/edit-text edit-text {:then false}]
+     [todo-id :todo/content content]
      :then
      (o/insert! todo-id :todo/editing? false)
-     (o/insert! todo-id :todo/content edit-text)
-     (o/insert! todo-id :todo/buttons (create-buttons edit-text))
+     (o/insert! todo-id :todo/buttons (create-buttons content))
      (o/insert! ::closet ::close true)]
     
     ::read-from-storage

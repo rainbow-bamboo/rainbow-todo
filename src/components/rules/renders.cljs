@@ -69,15 +69,18 @@
                                          "What needs to be done"
                                          nil)
                            :autoFocus true
-                           :value edit-text
+                           :value (:content t)
                            :on-blur #(insert! *session ::e/todo {::e/edit-complete (:id t)})
                            :on-change (fn [e]
-                                        (insert! *session ::t/global {::t/edit-text (-> e .-target .-value)}))
+                                        (insert! *session (:id t) {:todo/content (-> e .-target .-value)}))
                            :on-key-down (fn [e]
                                           (case (.-keyCode e)
                                             13
                                             (insert! *session ::e/todo {::e/edit-complete (:id t)})
-                                            nil))}]]
+                                            nil))}]
+                  [:button
+                   {:on-click #(insert! *session ::e/todo {::e/edit-complete (:id t)})}
+                   "Save"]]
                  [:li
                   {:id (str "todo-" (:id t))}
                   [:input {:type "checkbox"
@@ -95,7 +98,7 @@
                           (:button/content b)])
                        (:buttons t))
                   [:button
-                   {:on-click #(insert! *session ::e/todo {::e/toggle-edit (:id t)})}
+                   {:on-click #(insert! *session ::e/todo {::e/start-edit (:id t)})}
                     "Edit"]]))
              todos)])]
 
