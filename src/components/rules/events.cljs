@@ -28,7 +28,7 @@
      [::global ::next-id next-id {:then false}]
      :then
      (o/insert! next-id {:todo/content todo
-                         :todo/checked? true
+                         :todo/checked? false
                          :todo/editing? false
                          :todo/buttons (create-buttons todo)}) ;; Here we create the new todo with id
      (o/insert! ::t/global ::t/new-todo "") ;; This resets the input to be blank
@@ -78,6 +78,16 @@
      (o/insert! todo-id :todo/buttons (create-buttons content))
      (o/insert! ::closet ::close true)]
     
+    ::clear-checked
+    [:what
+     [::todo ::clear-checked true]
+     [id :todo/checked? true {:then false}]
+     :then
+     (o/retract! id :todo/content)
+     (o/retract! id :todo/editing?)
+     (o/retract! id :todo/checked?)
+     (o/retract! id :todo/buttons)]
+    
     
     ::save-to-localstorage
     [:what
@@ -85,7 +95,7 @@
      [id :todo/content content]
      [::c/global ::c/correct-passcode passcode]
      [::c/global ::c/editing-passcode? editing?]
-     :then
+     :then-finally
      (println "inside save")
      (let [facts (->> (o/query-all o/*session*)
                       (remove (fn [[id]]
