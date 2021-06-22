@@ -3,7 +3,8 @@
             [odoyle.rum :as orum]
             [components.rules.todos :as t]
             [components.rules.events :as e]
-            [components.rules.closet :as c]))
+            [components.rules.closet :as c]
+            [clojure.string :as s]))
 
 (defn insert! [*session id attr->value]
   (swap! *session
@@ -47,9 +48,11 @@
      (let [*session (orum/prop)]
        [:div#closet
         (if isOpen?
-          [:h1
-           {:on-click #(insert! *session ::e/closet {::e/close true})}
-           "My Closet"]
+          [:div
+           [:h1
+            {:on-click #(insert! *session ::e/closet {::e/close true})}
+            "My Closet"]
+           (passcode-display *session)]
           [:h1 "My Closet"])])]
 
     active-todos
@@ -90,7 +93,7 @@
                   (map (fn [b]
                          [:span.button
                           {:id (str "todo-" (:id t) "-letter-" (:button/id b))
-                           :style (if (:button/selected? b)  {:color (rainbow-color)} nil)
+                           :style (if (:button/selected? b)  {:background-color (rainbow-color)} nil)
                            :on-click #(insert! *session ::e/passcode {::e/insertion {:todo-id (:id t)
                                                                                      :button-id (:button/id b)
                                                                                      :button-content (:button/content b)
@@ -125,9 +128,28 @@
 
     passcode-display
     [:what
-     [::c/global ::c/inserted-passcode passcode]
-     [::c/global ::c/valid-passcode? isValid?]
+     [::c/global ::c/correct-passcode passcode]
+     [::c/global ::c/editing-passcode? editing?]
      :then
      (let [*session (orum/prop)]
-       [:div
-        [:span (reduce str passcode)]])]}))
+       (if editing?
+         [:div
+          [:input {:type "text"
+                   :placeholder "change your passcode"
+                   :autoFocus true
+                   :value passcode
+                   :on-blur #(insert! *session ::c/global {::c/editing-passcode? false})
+                   :on-change (fn [e]
+                                (insert! *session ::c/global { ::c/correct-passcode (s/upper-case (-> e .-target .-value))}))
+                   :on-key-down (fn [e]
+                                  (case (.-keyCode e)
+                                    13
+                                    (insert! *session ::c/global {::c/editing-passcode? false})
+                                    nil))}]
+          [:button {:on-click #(insert! *session ::c/global {::c/editing-passcode? false})}
+           "Done"]]
+         [:div
+          [:span.passcode passcode]
+          [:button {:on-click #(insert! *session ::c/global {::c/editing-passcode? true})}
+           "Edit"]
+          ]))]}))

@@ -16,6 +16,7 @@
       (o/insert ::e/global {::e/next-id 1})
       (o/insert ::c/global {::c/inserted-passcode []
                             ::c/correct-passcode "PRIDE"
+                            ::c/editing-passcode? false
                             ::c/valid-passcode? false})
       o/fire-rules))
 

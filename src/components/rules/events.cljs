@@ -78,22 +78,21 @@
      (o/insert! todo-id :todo/buttons (create-buttons content))
      (o/insert! ::closet ::close true)]
     
-    ::read-from-storage
-    [:what
-     [::c/global ::c/correct-passcode "PRIDE"]]
     
     ::save-to-localstorage
     [:what
      [id :todo/checked? checked]
      [id :todo/content content]
+     [::c/global ::c/correct-passcode passcode]
+     [::c/global ::c/editing-passcode? editing?]
      :then
      (println "inside save")
      (let [facts (->> (o/query-all o/*session*)
-                       (remove (fn [[id]]
-                                 (or (= id ::t/derived)
-                                     (= id ::todo)
-                                     (= id ::passcode)
-                                     (= id ::checkbox)))))]
+                      (remove (fn [[id]]
+                                (or (= id ::t/derived)
+                                    (= id ::todo)
+                                    (= id ::passcode)
+                                    (= id ::checkbox)))))]
        (println facts)
        (d/set-item! :facts facts))]})) 
 
