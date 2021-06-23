@@ -94,19 +94,21 @@
     ::save-to-localstorage
     [:what
      [id :todo/checked? checked]
-     [id :todo/content content]
+     [id :todo/content todo-content]
      [id :todo/color color]
      [::c/global ::c/correct-passcode passcode]
-     [::c/global ::c/editing-passcode? editing?]
+     [::c/global ::c/editing-passcode? editing-passcode?]
+     [::c/secret ::c/content secret]
+     [::c/secret ::c/editing? editing-secret?]
+     [::c/gratitude ::c/content gratitude]
+     [::c/gratitude ::c/editing? editing-gratitude?]
      :then-finally
-     (println "inside save")
      (let [facts (->> (o/query-all o/*session*)
                       (remove (fn [[id]]
                                 (or (= id ::t/derived)
                                     (= id ::todo)
                                     (= id ::passcode)
                                     (= id ::checkbox)))))]
-       (println facts)
        (d/set-item! :facts facts))]})) 
 
 

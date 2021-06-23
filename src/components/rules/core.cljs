@@ -9,7 +9,7 @@
 
 (def initial-session
   (-> (reduce o/add-rule (o/->session) (concat  t/todo-rules e/event-rules r/render-rules c/closet-rules))
-      (o/insert ::t/global {::t/new-todo ""
+      (o/insert ::t/global {::t/new-todo nil
                             ::t/active-id nil
                             ::t/edit-text ""})
       (o/insert ::t/derived {::t/todos []})
@@ -18,6 +18,10 @@
                             ::c/correct-passcode "PRIDE"
                             ::c/editing-passcode? false
                             ::c/valid-passcode? false})
+      (o/insert ::c/secret {::c/content ""
+                            ::c/editing? false})
+      (o/insert ::c/gratitude {::c/content ""
+                               ::c/editing? false})
       o/fire-rules))
 
 (def *todo-session (atom initial-session))

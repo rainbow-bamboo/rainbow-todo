@@ -14,7 +14,7 @@
                o/fire-rules))))
 
 (defn rainbow-color []
-  (let [colors ["red" "orange" "yellow" "green" "blue" "indigo" "violet"]]
+  (let [colors ["red" "orange" "yellow" "green" "cyan" "indigo" "violet"]]
     (rand-nth colors)))
 
 (def render-rules
@@ -25,7 +25,7 @@
        [:div#app-root
         (closet-door *session)
         (closet *session)])]
-    
+
     closet-door
     [:what
      [::c/global ::c/valid-passcode? isOpen?]
@@ -40,7 +40,7 @@
         (todo-form *session)
         (active-todos *session)
         #_(passcode-display *session)])]
-    
+
     closet
     [:what
      [::c/global ::c/valid-passcode? isOpen?]
@@ -52,7 +52,9 @@
            [:h1
             {:on-click #(insert! *session ::e/closet {::e/close true})}
             "My Closet"]
-           (passcode-display *session)]
+           (passcode-display *session)
+           (secret *session)
+           (gratitude *session)]
           [:h1 "My Closet"])])]
 
     active-todos
@@ -61,7 +63,7 @@
      [::t/global ::t/edit-text edit-text]
      :then
      (let [*session (orum/prop)
-           sorted-todos (->> todos 
+           sorted-todos (->> todos
                              (sort-by :id)
                              reverse
                              (sort-by :checked?))]
@@ -80,8 +82,8 @@
                    [:input {:type "text"
                             :class "edit"
                             :placeholder (if (not (:content t))
-                                          "What needs to be done"
-                                          nil)
+                                           "What needs to be done"
+                                           nil)
                             :autoFocus true
                             :value (:content t)
                             :on-blur #(insert! *session ::e/todo {::e/edit-complete (:id t)})
@@ -111,10 +113,12 @@
                           [:span.button
                            {:id (str "todo-" (:id t) "-letter-" (:button/id b))
                             :style (if (:button/selected? b)  {:background-color (rainbow-color)} nil)
-                            :on-click #(insert! *session ::e/passcode {::e/insertion {:todo-id (:id t)
-                                                                                      :button-id (:button/id b)
-                                                                                      :button-content (:button/content b)
-                                                                                      :buttons (:buttons t)}})}
+                            :on-click #(if (not (:button/selected? b))
+                                         (insert! *session ::e/passcode {::e/insertion {:todo-id (:id t)
+                                                                                        :button-id (:button/id b)
+                                                                                        :button-content (:button/content b)
+                                                                                        :buttons (:buttons t)}})
+                                         nil)}
                            (:button/content b)])
                         (:buttons t))
                    [:button
@@ -148,6 +152,52 @@
         [:button {:on-click #(insert! *session ::e/todo {::e/insertion todo})}
          "New Todo"]])]
 
+    secret
+    [:what
+     [::c/secret ::c/content content]
+     [::c/secret ::c/editing? editing?]
+     :then
+     (let [*session (orum/prop)]
+       (if editing?
+         [:div
+          [:label {:for "secret-text"} "My Secret:"]
+          [:textarea {:name "secret-text"
+                      :placeholder "What's weighing on your heart?"
+                      :rows 7
+                      :value content
+                      :on-change (fn [e]
+                                   (insert! *session ::c/secret {::c/content  (-> e .-target .-value)}))
+                      :on-blur #(insert! *session ::c/secret {::c/editing? false})}]
+          [:button {:on-click #(insert! *session ::c/secret {::c/editing? false})}
+           "Done"]]
+         [:div.secret-display
+          content
+          [:button {:on-click #(insert! *session ::c/secret {::c/editing? true})}
+           "Edit"]]))]
+
+    gratitude
+    [:what
+     [::c/gratitude ::c/content content]
+     [::c/gratitude ::c/editing? editing?]
+     :then
+     (let [*session (orum/prop)]
+       (if editing?
+         [:div
+          [:label {:for "gratitude-text"} "I'm grateful for:"]
+          [:textarea {:name "secret-text"
+                      :placeholder "Something that makes your smile"
+                      :rows 7
+                      :value content
+                      :on-change (fn [e]
+                                   (insert! *session ::c/gratitude {::c/content  (-> e .-target .-value)}))
+                      :on-blur #(insert! *session ::c/gratitude {::c/editing? false})}]
+          [:button {:on-click #(insert! *session ::c/gratitude {::c/editing? false})}
+           "Done"]]
+         [:div.gratitude-display
+          content
+          [:button {:on-click #(insert! *session ::c/gratitude {::c/editing? true})}
+           "Edit"]]))]
+
     passcode-display
     [:what
      [::c/global ::c/correct-passcode passcode]
@@ -156,13 +206,14 @@
      (let [*session (orum/prop)]
        (if editing?
          [:div
+          [:p "The code to your closet is:"]
           [:input {:type "text"
                    :placeholder "change your passcode"
                    :autoFocus true
                    :value passcode
                    :on-blur #(insert! *session ::c/global {::c/editing-passcode? false})
                    :on-change (fn [e]
-                                (insert! *session ::c/global { ::c/correct-passcode (s/upper-case (-> e .-target .-value))}))
+                                (insert! *session ::c/global {::c/correct-passcode (s/upper-case (-> e .-target .-value))}))
                    :on-key-down (fn [e]
                                   (case (.-keyCode e)
                                     13
@@ -171,10 +222,10 @@
           [:button {:on-click #(insert! *session ::c/global {::c/editing-passcode? false})}
            "Done"]]
          [:div
+          [:span "The code to your closet is:"]
           [:span.passcode passcode]
           [:button {:on-click #(insert! *session ::c/global {::c/editing-passcode? true})}
-           "Edit"]
-          ]))]}))
+           "Edit"]]))]}))
 
 
 #_(def todos [{:checked? true :content "Hello"} {:checked? false :content "tunder"} {:checked? true :content "last"}])
