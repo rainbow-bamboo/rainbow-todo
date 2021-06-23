@@ -6,6 +6,7 @@
    {::todos
     [:what
      [id :todo/content content]
+     [id :todo/color color]
      [id :todo/checked? checked?]
      [id :todo/editing? editing?]
      [id :todo/buttons buttons]

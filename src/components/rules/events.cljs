@@ -30,6 +30,7 @@
      (o/insert! next-id {:todo/content todo
                          :todo/checked? false
                          :todo/editing? false
+                         :todo/color "#000000"
                          :todo/buttons (create-buttons todo)}) ;; Here we create the new todo with id
      (o/insert! ::t/global ::t/new-todo "") ;; This resets the input to be blank
      (o/insert! ::global ::next-id (inc next-id))]
@@ -84,6 +85,7 @@
      [id :todo/checked? true {:then false}]
      :then
      (o/retract! id :todo/content)
+     (o/retract! id :todo/color)
      (o/retract! id :todo/editing?)
      (o/retract! id :todo/checked?)
      (o/retract! id :todo/buttons)]
@@ -93,6 +95,7 @@
     [:what
      [id :todo/checked? checked]
      [id :todo/content content]
+     [id :todo/color color]
      [::c/global ::c/correct-passcode passcode]
      [::c/global ::c/editing-passcode? editing?]
      :then-finally

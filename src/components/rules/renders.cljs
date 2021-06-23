@@ -61,7 +61,9 @@
      [::t/global ::t/edit-text edit-text]
      :then
      (let [*session (orum/prop)
-           sorted-todos (sort-by :checked? todos)]
+           sorted-todos (->> todos 
+                             (sort-by :id)
+                             (sort-by :checked?))]
        [:div.todo-list
         [:ol
          (map (fn [t]
@@ -69,6 +71,11 @@
                   [:li
                    {:id (str "todo-" (:id t))
                     :class (if (:checked? t) "checked" nil)}
+                   [:input {:type "color"
+                            :name "todo-color"
+                            :value (:color t)
+                            :on-change (fn [e]
+                                         (insert! *session (:id t) {:todo/color (-> e .-target .-value)}))}]
                    [:input {:type "text"
                             :class "edit"
                             :placeholder (if (not (:content t))
@@ -90,6 +97,11 @@
                   [:li
                    {:id (str "todo-" (:id t))
                     :class (if (:checked? t) "checked" nil)}
+                   [:input {:type "color"
+                            :name "todo-color"
+                            :value (:color t)
+                            :on-change (fn [e]
+                                         (insert! *session (:id t) {:todo/color (-> e .-target .-value)}))}]
                    [:input {:type "checkbox"
                             :class "todo-checkbox"
                             :checked (:checked? t)
