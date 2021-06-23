@@ -30,7 +30,7 @@
      (o/insert! next-id {:todo/content todo
                          :todo/checked? false
                          :todo/editing? false
-                         :todo/color "#000000"
+                         :todo/color "#90D9A9"
                          :todo/buttons (create-buttons todo)}) ;; Here we create the new todo with id
      (o/insert! ::t/global ::t/new-todo "") ;; This resets the input to be blank
      (o/insert! ::global ::next-id (inc next-id))]

@@ -1,3 +1,9 @@
+h1{
+    color: #ef8457;
+    font-weight: 400;
+    cursor: pointer
+}
+
 .selected{
     text-decoration: underline;
 }
@@ -9,8 +15,9 @@ li{
 .button{
     font-size: 1.5em;
     font-weight: bold;
-    letter-spacing: .25em;
+    padding: 0em .125em 0em .125em;
     cursor: pointer;
+    transition: all .5s ease-out;
 }
 
 #closet{
@@ -19,9 +26,10 @@ li{
     left: 0px;
     min-height: 100vh;
     min-width: 100vw;
-    background-color: #C6E8DA;
+    background-color: #e8dfd6;
     z-index: 1;
-    border: 1vw inset #8999a8;
+    border: 1em inset #959187;
+    padding: 1em;
 }
 
 #closet-door{
@@ -29,17 +37,33 @@ li{
     top: 0px;
     left: 0px;
     z-index: 2;
-    background-color: #FDEFE3;
-    border: 1px solid  #C6E8DA;
+    background-color:#e8dfd6;
+    border: 1em solid  #959187;
+    padding: 1em;
     min-height: 100vh;
     min-width: 100vw;
     transition: all 1s ease-out;
 }
 
+.todo-list li{
+    list-style: none;
+}
+
+.color-picker{
+    height: 4em;
+    width: 2em;
+    border: none;
+}
+
+
+.todo-checkbox, .save-button, .edit-button{
+    cursor: pointer;
+}
+
 .open{
-    opacity: 0;
+    /* opacity: 0; */
     pointer-events: none;
-    /* transform: translateX(-100vw); */
+    transform: translateX(-100vw); 
 }
 
 .checked{

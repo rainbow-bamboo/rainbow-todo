@@ -14,7 +14,7 @@
                o/fire-rules))))
 
 (defn rainbow-color []
-  (let [colors ["red" "orange" "yellow" "green" "cyan" "indigo" "violet"]]
+  (let [colors ["#FFB3BA" "#FFDFBB" "#FFFFBA" "#BAFFC9" "#BAFFC9" "#BAE1FF"]]
     (rand-nth colors)))
 
 (def render-rules
@@ -54,7 +54,10 @@
             "My Closet"]
            (passcode-display *session)
            (secret *session)
-           (gratitude *session)]
+           (gratitude *session)
+           [:button 
+            {:on-click #(insert! *session ::e/closet {::e/close true})}
+            "Close"]]
           [:h1 "My Closet"])])]
 
     active-todos
@@ -68,19 +71,20 @@
                              reverse
                              (sort-by :checked?))]
        [:div.todo-list
-        [:ol
+        [:ul
          (map (fn [t]
                 (if (:editing? t)
                   [:li
                    {:id (str "todo-" (:id t))
                     :class (if (:checked? t) "checked" nil)}
-                   [:input {:type "color"
+                   [:input {:class "color-picker"
+                            :type "color"
                             :name "todo-color"
                             :value (:color t)
                             :on-change (fn [e]
                                          (insert! *session (:id t) {:todo/color (-> e .-target .-value)}))}]
                    [:input {:type "text"
-                            :class "edit"
+                            :class "edit-todo"
                             :placeholder (if (not (:content t))
                                            "What needs to be done"
                                            nil)
@@ -94,21 +98,27 @@
                                              13
                                              (insert! *session ::e/todo {::e/edit-complete (:id t)})
                                              nil))}]
-                   [:button
-                    {:on-click #(insert! *session ::e/todo {::e/edit-complete (:id t)})}
-                    "Save"]]
+                   [:span
+                    {:class ["save-button" "material-icons"]
+                     :on-click #(insert! *session ::e/todo {::e/edit-complete (:id t)})}
+                    "done"]]
                   [:li
                    {:id (str "todo-" (:id t))
                     :class (if (:checked? t) "checked" nil)}
-                   [:input {:type "color"
+                   [:input {:class "color-picker"
+                            :type "color"
                             :name "todo-color"
                             :value (:color t)
                             :on-change (fn [e]
                                          (insert! *session (:id t) {:todo/color (-> e .-target .-value)}))}]
-                   [:input {:type "checkbox"
-                            :class "todo-checkbox"
-                            :checked (:checked? t)
-                            :on-change #(insert! *session ::e/checkbox {::e/toggle (:id t)})}]
+                   (if (:checked? t)
+                     [:span {:class ["todo-checkbox" "material-icons"]
+                            :on-click #(insert! *session ::e/checkbox {::e/toggle (:id t)})}
+                      "check_box"]
+                     [:span {:class ["todo-checkbox" "material-icons"]
+                            :on-click #(insert! *session ::e/checkbox {::e/toggle (:id t)})}
+                      "check_box_outline_blank"])
+
                    (map (fn [b]
                           [:span.button
                            {:id (str "todo-" (:id t) "-letter-" (:button/id b))
@@ -121,9 +131,10 @@
                                          nil)}
                            (:button/content b)])
                         (:buttons t))
-                   [:button
-                    {:on-click #(insert! *session ::e/todo {::e/start-edit (:id t)})}
-                    "Edit"]]))
+                   [:span
+                    {:class ["edit-button" "material-icons"]
+                     :on-click #(insert! *session ::e/todo {::e/start-edit (:id t)})}
+                    "edit"]]))
               sorted-todos)]
         (if (seq (filter :checked? todos))
           [:button
@@ -138,7 +149,7 @@
      (let [*session (orum/prop)]
        [:div.shelf.new-todo-form
         [:input {:type "text"
-                 :class "edit"
+                 :class "edit-todo"
                  :placeholder "What needs to be done?"
                  :autoFocus true
                  :value todo
