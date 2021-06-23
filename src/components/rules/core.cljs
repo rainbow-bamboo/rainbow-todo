@@ -27,8 +27,6 @@
 (def *todo-session (atom initial-session))
 
 (let [facts (edn/read-string (d/get-item :facts))]
-  (println "inside read")
-  (println facts)
   (if facts
     (swap! *todo-session
            (fn [session]
