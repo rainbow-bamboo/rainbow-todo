@@ -18,7 +18,7 @@ h1{
     margin-left: 1em;
 }
 
-.edit-todo{
+.edit-todo, .passcode-edit{
     height: 2em;
     font-size: 1.5em;
     font-family: 'Major Mono Display';
@@ -137,13 +137,28 @@ button{
     color: #8999a8;
 }
 
+.passcode-edit label{
+    font-size: .75em;
+}
+
 .secret-display{
     display: flex;
     justify-content: space-between;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 .secret-display p{
     font-size: 2.5em;
     font-weight: bold;
     line-height: 1.5em;
+}
+
+.secret-display .edit-button{
+    font-size: 2em;
+    color: black;
+}
+
+.secret-edit textarea{
+    width: 60vw;
 }

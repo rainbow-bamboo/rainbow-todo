@@ -178,7 +178,6 @@
      (let [*session (orum/prop)]
        (if editing?
          [:div.secret-edit
-          [:label {:for "secret-text"} "My Secret:"]
           [:textarea {:name "secret-text"
                       :placeholder "What's weighing on your heart?"
                       :rows 7
@@ -226,7 +225,7 @@
      (let [*session (orum/prop)]
        (if editing?
          [:div.passcode-edit
-          [:label {:for "passcode-edit"} "The code to your closet is:"]
+          [:label {:for "passcode-edit"} "Passcode:"]
           [:input {:type "text"
                    :name "passcode-edit"
                    :placeholder "change your passcode"
