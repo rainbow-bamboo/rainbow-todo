@@ -24,15 +24,11 @@
                                ::c/editing? false})
       o/fire-rules))
 
-(def *todo-session (atom initial-session))
+(def hydrated-session 
+  (let [facts (edn/read-string (d/get-item :facts))]
+    (if facts
+      (o/fire-rules
+       (reduce o/insert initial-session facts))
+      initial-session)))
 
-(let [facts (edn/read-string (d/get-item :facts))]
-  (if facts
-    (swap! *todo-session
-           (fn [session]
-             (o/fire-rules
-              (reduce o/insert session facts))))
-    nil))
-
-
-
+(def *todo-session (atom hydrated-session))

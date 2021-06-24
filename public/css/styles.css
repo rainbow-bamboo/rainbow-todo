@@ -1,23 +1,53 @@
+html,body{
+    margin:0;
+ }
+
 h1{
     color: #ef8457;
     font-weight: 400;
     cursor: pointer
 }
 
-.selected{
-    text-decoration: underline;
+
+.new-todo-form{
+    margin-top: 1em;
 }
+
+.new-todo-form button{
+    margin-left: 1em;
+}
+
+.edit-todo{
+    height: 2em;
+    font-size: 1.5em;
+    font-family: 'Major Mono Display';
+    font-weight: bold;
+    width: 70vw;
+    border: none;
+}
+
 
 li{
     line-height: 3ch;
 }
 
+
+button{
+    background-color: #90d9a9;
+    height: 2em;
+    border: none;
+}
+
+
 .button{
     font-size: 1.5em;
     font-weight: bold;
-    padding: 0em .125em 0em .125em;
+    padding: 0em .05em 0em .05em;
     cursor: pointer;
-    transition: all .5s ease-out;
+}
+
+.space{
+    padding: 0em .25em 0em .25em;
 }
 
 #closet{
@@ -26,7 +56,7 @@ li{
     left: 0px;
     min-height: 100vh;
     min-width: 100vw;
-    background-color: #e8dfd6;
+    background-color: #fef1de;
     z-index: 1;
     border: 1em inset #959187;
     padding: 1em;
@@ -37,17 +67,53 @@ li{
     top: 0px;
     left: 0px;
     z-index: 2;
-    background-color:#e8dfd6;
+    background-color: #fef1de;
     border: 1em solid  #959187;
     padding: 1em;
     min-height: 100vh;
-    min-width: 100vw;
+    min-width: 100%;
     transition: all 1s ease-out;
 }
 
-.todo-list li{
-    list-style: none;
+.todo-list{
+    margin-top: 2em;
 }
+
+.todo{
+    display: flex;
+    align-items: center;
+}
+
+.todo-list li{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    border-bottom: 2px dotted #959187;
+    overflow-wrap: break-word;
+}
+
+.todo-list li:nth-child(1){
+    border-top: 2px dotted #959187;
+}
+
+
+.edit-button{
+    margin-left: 1em;
+    color: #959187;
+}
+
+.todo-list .todo-checkbox{
+    font-size: 2em;
+    margin-right: .25em;
+}
+
+.clear-button{
+    margin-top: 2em;
+    background-color: #8999a8;
+    color: white;
+}
+
 
 .color-picker{
     height: 4em;
@@ -63,7 +129,7 @@ li{
 .open{
     /* opacity: 0; */
     pointer-events: none;
-    transform: translateX(-100vw); 
+    transform: translateX(-100%); 
 }
 
 .checked{

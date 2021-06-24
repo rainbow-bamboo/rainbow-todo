@@ -86,7 +86,7 @@
                    [:input {:type "text"
                             :class "edit-todo"
                             :placeholder (if (not (:content t))
-                                           "What needs to be done"
+                                           "New Todo"
                                            nil)
                             :autoFocus true
                             :value (:content t)
@@ -102,35 +102,40 @@
                     {:class ["save-button" "material-icons"]
                      :on-click #(insert! *session ::e/todo {::e/edit-complete (:id t)})}
                     "done"]]
+                  
+                  ; ELSE
+
                   [:li
                    {:id (str "todo-" (:id t))
                     :class (if (:checked? t) "checked" nil)}
-                   [:input {:class "color-picker"
-                            :type "color"
-                            :name "todo-color"
-                            :value (:color t)
-                            :on-change (fn [e]
-                                         (insert! *session (:id t) {:todo/color (-> e .-target .-value)}))}]
-                   (if (:checked? t)
-                     [:span {:class ["todo-checkbox" "material-icons"]
-                            :on-click #(insert! *session ::e/checkbox {::e/toggle (:id t)})}
-                      "check_box"]
-                     [:span {:class ["todo-checkbox" "material-icons"]
-                            :on-click #(insert! *session ::e/checkbox {::e/toggle (:id t)})}
-                      "check_box_outline_blank"])
+                   [:div.todo
+                    [:input {:class "color-picker"
+                             :type "color"
+                             :name "todo-color"
+                             :value (:color t)
+                             :on-change (fn [e]
+                                          (insert! *session (:id t) {:todo/color (-> e .-target .-value)}))}]
+                    (if (:checked? t)
+                      [:span {:class ["todo-checkbox" "material-icons"]
+                              :on-click #(insert! *session ::e/checkbox {::e/toggle (:id t)})}
+                       "check_box"]
+                      [:span {:class ["todo-checkbox" "material-icons"]
+                              :on-click #(insert! *session ::e/checkbox {::e/toggle (:id t)})}
+                       "check_box_outline_blank"])
 
-                   (map (fn [b]
-                          [:span.button
-                           {:id (str "todo-" (:id t) "-letter-" (:button/id b))
-                            :style (if (:button/selected? b)  {:background-color (rainbow-color)} nil)
-                            :on-click #(if (not (:button/selected? b))
-                                         (insert! *session ::e/passcode {::e/insertion {:todo-id (:id t)
-                                                                                        :button-id (:button/id b)
-                                                                                        :button-content (:button/content b)
-                                                                                        :buttons (:buttons t)}})
-                                         nil)}
-                           (:button/content b)])
-                        (:buttons t))
+                    (map (fn [b]
+                           [:span
+                            {:id (str "todo-" (:id t) "-letter-" (:button/id b))
+                             :class ["button" (if (= (:button/content b) " ") "space" nil)]
+                             :style (if (:button/selected? b)  {:background-color (rainbow-color)} nil)
+                             :on-click #(if (not (:button/selected? b))
+                                          (insert! *session ::e/passcode {::e/insertion {:todo-id (:id t)
+                                                                                         :button-id (:button/id b)
+                                                                                         :button-content (:button/content b)
+                                                                                         :buttons (:buttons t)}})
+                                          nil)}
+                            (:button/content b)])
+                         (:buttons t))]
                    [:span
                     {:class ["edit-button" "material-icons"]
                      :on-click #(insert! *session ::e/todo {::e/start-edit (:id t)})}
@@ -138,7 +143,8 @@
               sorted-todos)]
         (if (seq (filter :checked? todos))
           [:button
-           {:on-click #(insert! *session ::e/todo {::e/clear-checked true})}
+           {:class "clear-button"
+            :on-click #(insert! *session ::e/todo {::e/clear-checked true})}
            "Clear Checked"]
           nil)])]
 
@@ -150,7 +156,7 @@
        [:div.shelf.new-todo-form
         [:input {:type "text"
                  :class "edit-todo"
-                 :placeholder "What needs to be done?"
+                 :placeholder "New Todo"
                  :autoFocus true
                  :value todo
                  :on-change (fn [e]
@@ -160,8 +166,9 @@
                                   13
                                   (insert! *session ::e/todo {::e/insertion todo})
                                   nil))}]
-        [:button {:on-click #(insert! *session ::e/todo {::e/insertion todo})}
-         "New Todo"]])]
+        [:button {:class "material-icons"
+                  :on-click #(insert! *session ::e/todo {::e/insertion todo})}
+         "add"]])]
 
     secret
     [:what
