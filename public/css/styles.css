@@ -4,8 +4,9 @@ html,body{
 
 h1{
     color: #ef8457;
-    font-weight: 400;
-    cursor: pointer
+    /* font-weight: 400; */
+    cursor: pointer;
+    font-weight: bold;
 }
 
 
@@ -33,7 +34,8 @@ li{
 
 
 button{
-    background-color: #90d9a9;
+    cursor: pointer;
+    background-color:#d9f2ec;
     height: 2em;
     border: none;
 }
@@ -64,11 +66,10 @@ button{
 
 #closet-door{
     position: absolute;
+    background-color: #fef1de;
     top: 0px;
     left: 0px;
     z-index: 2;
-    background-color: #fef1de;
-    border: 1em solid  #959187;
     padding: 1em;
     min-height: 100vh;
     min-width: 100%;
@@ -134,4 +135,15 @@ button{
 
 .checked{
     color: #8999a8;
+}
+
+.secret-display{
+    display: flex;
+    justify-content: space-between;
+}
+
+.secret-display p{
+    font-size: 2.5em;
+    font-weight: bold;
+    line-height: 1.5em;
 }

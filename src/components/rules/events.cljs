@@ -98,6 +98,7 @@
      [id :todo/color color]
      [::c/global ::c/correct-passcode passcode]
      [::c/global ::c/editing-passcode? editing-passcode?]
+     [::c/global ::c/inserted-passcode inserted-passcode]
      [::c/secret ::c/content secret]
      [::c/secret ::c/editing? editing-secret?]
      [::c/gratitude ::c/content gratitude]

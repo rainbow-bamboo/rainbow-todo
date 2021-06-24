@@ -18,7 +18,7 @@
                             ::c/correct-passcode "PRIDE"
                             ::c/editing-passcode? false
                             ::c/valid-passcode? false})
-      (o/insert ::c/secret {::c/content ""
+      (o/insert ::c/secret {::c/content "I hold this secret in my heart. It's about love, and grief, and truth."
                             ::c/editing? false})
       (o/insert ::c/gratitude {::c/content ""
                                ::c/editing? false})
