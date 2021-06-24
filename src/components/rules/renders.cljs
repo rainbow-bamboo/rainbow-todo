@@ -38,8 +38,7 @@
           {:on-click #(insert! *session ::e/closet {::e/close true})}
           "Rainbow Todo"]]
         (todo-form *session)
-        (active-todos *session)
-        #_(passcode-display *session)])]
+        (active-todos *session)])]
 
     closet
     [:what
@@ -54,7 +53,6 @@
             "My Closet"]
            (passcode-display *session)
            (secret *session)
-           #_(gratitude *session)
            [:button 
             {:on-click #(insert! *session ::e/closet {::e/close true})}
             "Close the closet door"]]
@@ -103,7 +101,6 @@
                      :on-click #(insert! *session ::e/todo {::e/edit-complete (:id t)})}
                     "done"]]
                   
-                  ; ELSE
 
                   [:li
                    {:id (str "todo-" (:id t))
@@ -194,28 +191,28 @@
                   :on-click #(insert! *session ::c/secret {::c/editing? true})}
            "edit"]]))]
 
-    gratitude
-    [:what
-     [::c/gratitude ::c/content content]
-     [::c/gratitude ::c/editing? editing?]
-     :then
-     (let [*session (orum/prop)]
-       (if editing?
-         [:div
-          [:label {:for "gratitude-text"} "I'm grateful for:"]
-          [:textarea {:name "secret-text"
-                      :placeholder "Something that makes your smile"
-                      :rows 7
-                      :value content
-                      :on-change (fn [e]
-                                   (insert! *session ::c/gratitude {::c/content  (-> e .-target .-value)}))
-                      :on-blur #(insert! *session ::c/gratitude {::c/editing? false})}]
-          [:button {:on-click #(insert! *session ::c/gratitude {::c/editing? false})}
-           "Done"]]
-         [:div.gratitude-display
-          content
-          [:button {:on-click #(insert! *session ::c/gratitude {::c/editing? true})}
-           "Edit"]]))]
+    ;; gratitude
+    ;; [:what
+    ;;  [::c/gratitude ::c/content content]
+    ;;  [::c/gratitude ::c/editing? editing?]
+    ;;  :then
+    ;;  (let [*session (orum/prop)]
+    ;;    (if editing?
+    ;;      [:div
+    ;;       [:label {:for "gratitude-text"} "I'm grateful for:"]
+    ;;       [:textarea {:name "secret-text"
+    ;;                   :placeholder "Something that makes your smile"
+    ;;                   :rows 7
+    ;;                   :value content
+    ;;                   :on-change (fn [e]
+    ;;                                (insert! *session ::c/gratitude {::c/content  (-> e .-target .-value)}))
+    ;;                   :on-blur #(insert! *session ::c/gratitude {::c/editing? false})}]
+    ;;       [:button {:on-click #(insert! *session ::c/gratitude {::c/editing? false})}
+    ;;        "Done"]]
+    ;;      [:div.gratitude-display
+    ;;       content
+    ;;       [:button {:on-click #(insert! *session ::c/gratitude {::c/editing? true})}
+    ;;        "Edit"]]))]
 
     passcode-display
     [:what
@@ -246,6 +243,3 @@
            "Change Passcode"]]))]}))
 
 
-#_(def todos [{:checked? true :content "Hello"} {:checked? false :content "tunder"} {:checked? true :content "last"}])
-
-#_(reverse (sort-by :checked? todos))
