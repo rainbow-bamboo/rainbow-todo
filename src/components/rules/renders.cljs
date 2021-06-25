@@ -66,7 +66,6 @@
      (let [*session (orum/prop)
            sorted-todos (->> todos
                              (sort-by :id)
-                             reverse
                              (sort-by :checked?))]
        [:div.todo-list
         [:ul
