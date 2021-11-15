@@ -50,13 +50,13 @@
           [:div
            [:h1
             {:on-click #(insert! *session ::e/closet {::e/close true})}
-            "My Closet"]
+            "My Secret"]
            (passcode-display *session)
            (secret *session)
            [:button 
             {:on-click #(insert! *session ::e/closet {::e/close true})}
-            "Close the closet door"]]
-          [:h1 "My Closet"])])]
+            "Close the compartment"]]
+          [:h1 "My Secret"])])]
 
     active-todos
     [:what
