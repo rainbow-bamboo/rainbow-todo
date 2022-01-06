@@ -3,25 +3,25 @@
             [components.rules.renders :as r]
             [components.rules.todos :as t]
             [components.rules.events :as e]
-            [components.rules.closet :as c]
+            [components.rules.vault :as v]
             [components.data.interface :as d]
             [clojure.edn :as edn]))
 
 (def initial-session
-  (-> (reduce o/add-rule (o/->session) (concat  t/todo-rules e/event-rules r/render-rules c/closet-rules))
+  (-> (reduce o/add-rule (o/->session) (concat  t/todo-rules e/event-rules r/render-rules v/vault-rules))
       (o/insert ::t/global {::t/new-todo nil
                             ::t/active-id nil
                             ::t/edit-text ""})
       (o/insert ::t/derived {::t/todos []})
       (o/insert ::e/global {::e/next-id 1})
-      (o/insert ::c/global {::c/inserted-passcode []
-                            ::c/correct-passcode "PRIDE"
-                            ::c/editing-passcode? false
-                            ::c/valid-passcode? false})
-      (o/insert ::c/secret {::c/content "I hold this secret in my heart. It's about love, and grief, and truth."
-                            ::c/editing? false})
-      (o/insert ::c/gratitude {::c/content ""
-                               ::c/editing? false})
+      (o/insert ::v/global {::v/inserted-passcode []
+                            ::v/correct-passcode "PRIDE"
+                            ::v/editing-passcode? false
+                            ::v/valid-passcode? false})
+      (o/insert ::v/secret {::v/content "I embody light"
+                            ::v/editing? false})
+      (o/insert ::v/gratitude {::v/content ""
+                               ::v/editing? false})
       o/fire-rules))
 
 (def hydrated-session 

@@ -1,10 +1,9 @@
 (ns components.rules.events
   (:require [odoyle.rules :as o]
             [components.rules.todos :as t]
-            [components.rules.closet :as c]
+            [components.rules.vault :as v]
             [components.data.interface :as d]
-            [clojure.string :as s]
-            [clojure.edn :as edn]))
+            [clojure.string :as s]))
 
 (defn add-unique-id [coll]
   (map #(assoc  %1 :button/id %2)  coll (range (count coll))))
@@ -38,20 +37,20 @@
     ::insert-passcode
     [:what
      [::passcode ::insertion selection]
-     [::c/global ::c/inserted-passcode passcode {:then false}]
+     [::v/global ::v/inserted-passcode passcode {:then false}]
      :then
      (let [{:keys [todo-id button-id button-content buttons]} selection]
        (o/insert! todo-id {:todo/buttons (select-button button-id buttons)})
-       (o/insert! ::c/global ::c/inserted-passcode (conj passcode (s/upper-case button-content))))]
+       (o/insert! ::v/global ::v/inserted-passcode (conj passcode (s/upper-case button-content))))]
     
-    ::close-closet
+    ::close-vault
     [:what
-     [::closet ::close true]
+     [::vault ::close true]
      [id :todo/content todo {:then false}]
      [id :todo/buttons buttons {:then false}]
      :then
-     (o/insert! ::c/global ::c/inserted-passcode [])
-     (o/insert! ::c/global ::c/valid-passcode? false)
+     (o/insert! ::v/global ::v/inserted-passcode [])
+     (o/insert! ::v/global ::v/valid-passcode? false)
      (o/insert! id :todo/buttons (create-buttons todo))]
     
     ::toggle-checkbox
@@ -77,7 +76,7 @@
      :then
      (o/insert! todo-id :todo/editing? false)
      (o/insert! todo-id :todo/buttons (create-buttons content))
-     (o/insert! ::closet ::close true)]
+     (o/insert! ::vault ::close true)]
     
     ::clear-checked
     [:what
@@ -96,13 +95,13 @@
      [id :todo/checked? checked]
      [id :todo/content todo-content]
      [id :todo/color color]
-     [::c/global ::c/correct-passcode passcode]
-     [::c/global ::c/editing-passcode? editing-passcode?]
-     [::c/global ::c/inserted-passcode inserted-passcode]
-     [::c/secret ::c/content secret]
-     [::c/secret ::c/editing? editing-secret?]
-     [::c/gratitude ::c/content gratitude]
-     [::c/gratitude ::c/editing? editing-gratitude?]
+     [::v/global ::v/correct-passcode passcode]
+     [::v/global ::v/editing-passcode? editing-passcode?]
+     [::v/global ::v/inserted-passcode inserted-passcode]
+     [::v/secret ::v/content secret]
+     [::v/secret ::v/editing? editing-secret?]
+     [::v/gratitude ::v/content gratitude]
+     [::v/gratitude ::v/editing? editing-gratitude?]
      :then-finally
      (let [facts (->> (o/query-all o/*session*)
                       (remove (fn [[id]]

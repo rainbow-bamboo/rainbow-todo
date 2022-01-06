@@ -5,9 +5,12 @@ ARG VARIANT="16-buster"
 FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
 
 # [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
-
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+     && apt-get -y install --no-install-recommends rlwrap npm default-jre
+ RUN npm install shadow-cljs -g
+ RUN curl -O https://download.clojure.org/install/linux-install-1.10.3.1040.sh
+ RUN chmod +x linux-install-1.10.3.1040.sh
+ RUN sudo ./linux-install-1.10.3.1040.sh
 # [Optional] Uncomment if you want to install an additional version of node using nvm
 # ARG EXTRA_NODE_VERSION=10
 # RUN su node -c "source /usr/local/share/nvm/nvm.sh && nvm install ${EXTRA_NODE_VERSION}"

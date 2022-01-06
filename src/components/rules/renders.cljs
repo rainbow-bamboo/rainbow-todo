@@ -3,7 +3,7 @@
             [odoyle.rum :as orum]
             [components.rules.todos :as t]
             [components.rules.events :as e]
-            [components.rules.closet :as c]
+            [components.rules.vault :as v]
             [clojure.string :as s]))
 
 (defn insert! [*session id attr->value]
@@ -23,40 +23,40 @@
     [:then
      (let [*session (orum/prop)]
        [:div#app-root
-        (closet-door *session)
-        (closet *session)])]
+        (vault-door *session)
+        (vault *session)])]
 
-    closet-door
+    vault-door
     [:what
-     [::c/global ::c/valid-passcode? isOpen?]
+     [::v/global ::v/valid-passcode? isOpen?]
      :then
      (let [*session (orum/prop)]
-       [:div#closet-door
+       [:div#vault-door
         {:class (if isOpen? "open" "closed")}
         [:header
          [:h1
-          {:on-click #(insert! *session ::e/closet {::e/close true})}
+          {:on-click #(insert! *session ::e/vault {::e/close true})}
           "Rainbow Todo"]]
         (todo-form *session)
         (active-todos *session)])]
 
-    closet
+    vault
     [:what
-     [::c/global ::c/valid-passcode? isOpen?]
+     [::v/global ::v/valid-passcode? isOpen?]
      :then
      (let [*session (orum/prop)]
-       [:div#closet
+       [:div#vault
         (if isOpen?
           [:div
            [:h1
-            {:on-click #(insert! *session ::e/closet {::e/close true})}
-            "My Secret"]
+            {:on-click #(insert! *session ::e/vault {::e/close true})}
+            "Affirmations"]
            (passcode-display *session)
            (secret *session)
            [:button 
-            {:on-click #(insert! *session ::e/closet {::e/close true})}
+            {:on-click #(insert! *session ::e/vault {::e/close true})}
             "Close the compartment"]]
-          [:h1 "My Secret"])])]
+          [:h1 "Affirmations"])])]
 
     active-todos
     [:what
@@ -168,8 +168,8 @@
 
     secret
     [:what
-     [::c/secret ::c/content content]
-     [::c/secret ::c/editing? editing?]
+     [::v/secret ::v/content content]
+     [::v/secret ::v/editing? editing?]
      :then
      (let [*session (orum/prop)]
        (if editing?
@@ -179,21 +179,21 @@
                       :rows 7
                       :value content
                       :on-change (fn [e]
-                                   (insert! *session ::c/secret {::c/content  (-> e .-target .-value)}))
-                      :on-blur #(insert! *session ::c/secret {::c/editing? false})}]
+                                   (insert! *session ::v/secret {::v/content  (-> e .-target .-value)}))
+                      :on-blur #(insert! *session ::v/secret {::v/editing? false})}]
           [:button {:class "material-icons"
-                    :on-click #(insert! *session ::c/secret {::c/editing? false})}
+                    :on-click #(insert! *session ::v/secret {::v/editing? false})}
            "done"]]
          [:div.secret-display
           [:p content]
           [:span {:class "material-icons edit-button"
-                  :on-click #(insert! *session ::c/secret {::c/editing? true})}
+                  :on-click #(insert! *session ::v/secret {::v/editing? true})}
            "edit"]]))]
 
     ;; gratitude
     ;; [:what
-    ;;  [::c/gratitude ::c/content content]
-    ;;  [::c/gratitude ::c/editing? editing?]
+    ;;  [::v/gratitude ::v/content content]
+    ;;  [::v/gratitude ::v/editing? editing?]
     ;;  :then
     ;;  (let [*session (orum/prop)]
     ;;    (if editing?
@@ -204,19 +204,19 @@
     ;;                   :rows 7
     ;;                   :value content
     ;;                   :on-change (fn [e]
-    ;;                                (insert! *session ::c/gratitude {::c/content  (-> e .-target .-value)}))
-    ;;                   :on-blur #(insert! *session ::c/gratitude {::c/editing? false})}]
-    ;;       [:button {:on-click #(insert! *session ::c/gratitude {::c/editing? false})}
+    ;;                                (insert! *session ::v/gratitude {::v/content  (-> e .-target .-value)}))
+    ;;                   :on-blur #(insert! *session ::v/gratitude {::v/editing? false})}]
+    ;;       [:button {:on-click #(insert! *session ::v/gratitude {::v/editing? false})}
     ;;        "Done"]]
     ;;      [:div.gratitude-display
     ;;       content
-    ;;       [:button {:on-click #(insert! *session ::c/gratitude {::c/editing? true})}
+    ;;       [:button {:on-click #(insert! *session ::v/gratitude {::v/editing? true})}
     ;;        "Edit"]]))]
 
     passcode-display
     [:what
-     [::c/global ::c/correct-passcode passcode]
-     [::c/global ::c/editing-passcode? editing?]
+     [::v/global ::v/correct-passcode passcode]
+     [::v/global ::v/editing-passcode? editing?]
      :then
      (let [*session (orum/prop)]
        (if editing?
@@ -228,17 +228,17 @@
                    :autoFocus true
                    :value passcode
                    :on-change (fn [e]
-                                (insert! *session ::c/global {::c/correct-passcode (s/upper-case (-> e .-target .-value))}))
+                                (insert! *session ::v/global {::v/correct-passcode (s/upper-case (-> e .-target .-value))}))
                    :on-key-down (fn [e]
                                   (case (.-keyCode e)
                                     13
-                                    (insert! *session ::c/global {::c/editing-passcode? false})
+                                    (insert! *session ::v/global {::v/editing-passcode? false})
                                     nil))}]
           [:button {:class "material-icons"
-                    :on-click #(insert! *session ::c/global {::c/editing-passcode? false})}
+                    :on-click #(insert! *session ::v/global {::v/editing-passcode? false})}
            "done"]]
          [:div
-          [:button {:on-click #(insert! *session ::c/global {::c/editing-passcode? true})}
+          [:button {:on-click #(insert! *session ::v/global {::v/editing-passcode? true})}
            "Change Passcode"]]))]}))
 
 

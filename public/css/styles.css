@@ -52,7 +52,7 @@ button{
     padding: 0em .25em 0em .25em;
 }
 
-#closet{
+#vault{
     position: absolute;
     top: 0px;
     left: 0px;
@@ -64,7 +64,7 @@ button{
     padding: 1em;
 }
 
-#closet-door{
+#vault-door{
     position: absolute;
     background-color: #fef1de;
     top: 0px;
